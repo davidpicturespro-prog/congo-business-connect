@@ -125,6 +125,43 @@ footer {
         font-size: 25px;
     }
 
+.search-box {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    max-width: 550px;
+    margin: 0 auto 20px;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.search-box button {
+    padding: 13px 18px;
+    background: #168653;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#searchMessage {
+    margin: 15px;
+    color: #168653;
+}
+
+@media (max-width: 450px) {
+    .search-box {
+        flex-direction: column;
+    }
+}
+
     .categories {
         grid-template-columns: 1fr;
     }
