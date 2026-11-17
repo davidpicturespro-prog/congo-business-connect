@@ -4,119 +4,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Congo Business Connect : découvrez les commerçants et professionnels en RDC.">
-    <title>Congo Business Connect</title>
+    <meta name="description" content="Congo Business Connect : trouvez des commerces, produits et professionnels en RDC.">
+    <meta name="theme-color" content="#087443">
+    <title>Congo Business Connect | RDC</title>
     <link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
 
-    <header>
-        <h1>🇨🇩 Congo Business Connect</h1>
-        <p>Découvrez les meilleurs services près de chez vous.</p>
-    </header>
-
+<header class="header">
+    <a href="#accueil" class="logo">🇨🇩 Congo Business Connect</a>
     <nav>
         <a href="#accueil">Accueil</a>
         <a href="#categories">Catégories</a>
+        <a href="#professionals">Commerçants</a>
         <a href="#contact">Contact</a>
     </nav>
+</header>
 
-    <main>
-        <section id="accueil" class="hero">
-            <h2>Développez votre activité en ligne</h2>
-            <p>Découvrez des commerces et professionnels en République démocratique du Congo.</p>
-            <a class="button" href="#categories">Découvrir les services</a>
-        </section>
+<main>
+    <section class="hero" id="accueil">
+        <span class="tag">LA VITRINE COMMERCIALE DE LA RDC</span>
+        <h1>Trouvez les meilleurs services près de chez vous.</h1>
+        <p>Découvrez les commerces, entreprises et professionnels de la République démocratique du Congo.</p>
 
-        <section id="categories">
-            <h2>Nos catégories</h2>
+        <a href="#categories" class="button">Découvrir les services</a>
 
-<div class="search-box">
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="Rechercher un service..."
-    >
-    <button onclick="searchServices()">Rechercher</button>
-</div>
-<p id="searchMessage"></p>
+        <div class="search-box">
+            <input type="search" id="searchInput"
+                placeholder="Rechercher un commerce ou un service...">
+            <button id="searchButton">Rechercher</button>
+        </div>
+        <p id="searchMessage" aria-live="polite"></p>
+    </section>
 
-            <div class="categories">
-                <article class="category">
-                    <h3>📸 Photographes</h3>
-                    <p>Découvrez des photographes professionnels.</p>
-                </article>
+    <section class="section" id="categories">
+        <h2>Explorer les catégories</h2>
+        <p class="subtitle">Trouvez facilement ce dont vous avez besoin.</p>
 
-                <article class="category">
-                    <h3>💈 Coiffeurs</h3>
-                    <p>Trouvez des salons de coiffure.</p>
-                </article>
+        <div class="categories">
+            <article class="category" data-category="photographie">
+                <span>📸</span><h3>Photographes</h3>
+                <p>Photos studio et événements.</p>
+            </article>
+            <article class="category" data-category="coiffure">
+                <span>💈</span><h3>Coiffeurs</h3>
+                <p>Salons et soins capillaires.</p>
+            </article>
+            <article class="category" data-category="restaurant">
+                <span>🍽️</span><h3>Restaurants</h3>
+                <p>Restaurants et gastronomie.</p>
+            </article>
+            <article class="category" data-category="boutique">
+                <span>🛍️</span><h3>Boutiques</h3>
+                <p>Commerces et magasins.</p>
+            </article>
+            <article class="category" data-category="informatique">
+                <span>💻</span><h3>Informatique</h3>
+                <p>Technologie et réparation.</p>
+            </article>
+            <article class="category" data-category="transport">
+                <span>🚕</span><h3>Transport</h3>
+                <p>Déplacements et livraison.</p>
+            </article>
+        </div>
+    </section>
 
-                <article class="category">
-                    <h3>🍽️ Restaurants</h3>
-                    <p>Découvrez des restaurants près de vous.</p>
-                </article>
+    <section class="section professionals" id="professionals">
+        <h2>Professionnels à découvrir</h2>
+        <p class="subtitle">Quelques exemples de services sur la plateforme.</p>
 
-                <article class="category">
-                    <h3>🛍️ Boutiques</h3>
-                    <p>Explorez les commerces locaux.</p>
-                </article>
-            </div>
-        </section>
+        <div class="business-list" id="businessList">
 
-<section id="professionals">
-    <h2>Professionnels à découvrir</h2>
-    <p>Découvrez les services disponibles près de chez vous.</p>
+            <article class="business-card"
+                data-name="Studio Photo Exemple"
+                data-category="photographie"
+                data-service="photos studio mariage shooting"
+                data-city="kikwit">
+                <div class="business-icon">📸</div>
+                <h3>Studio Photo Exemple</h3>
+                <span class="business-type">Photographie</span>
+                <p>Photos studio, mariages et événements.</p>
+                <p>📍 Kikwit, RDC</p>
+                <a href="#contact" class="business-button">Contacter</a>
+            </article>
 
-    <div class="business-list">
+            <article class="business-card"
+                data-name="Salon Exemple"
+                data-category="coiffure"
+                data-service="coiffure soins capillaires"
+                data-city="kikwit">
+                <div class="business-icon">💈</div>
+                <h3>Salon Exemple</h3>
+                <span class="business-type">Coiffure</span>
+                <p>Coiffure et soins capillaires.</p>
+                <p>📍 Kikwit, RDC</p>
+                <a href="#contact" class="business-button">Contacter</a>
+            </article>
 
-        <article class="business-card">
-            <div class="business-icon">📸</div>
-            <h3>Studio Photo Exemple</h3>
-            <p class="business-type">Photographie</p>
-            <p>Photos studio, mariages et événements.</p>
-            <p>📍 Kikwit, RDC</p>
-            <a href="#contact" class="business-button">
-                Demander les informations
-            </a>
-        </article>
+            <article class="business-card"
+                data-name="Restaurant Exemple"
+                data-category="restaurant"
+                data-service="restaurant repas cuisine"
+                data-city="kikwit">
+                <div class="business-icon">🍽️</div>
+                <h3>Restaurant Exemple</h3>
+                <span class="business-type">Restauration</span>
+                <p>Plats et spécialités locales.</p>
+                <p>📍 Kikwit, RDC</p>
+                <a href="#contact" class="business-button">Contacter</a>
+            </article>
 
-        <article class="business-card">
-            <div class="business-icon">💈</div>
-            <h3>Salon Exemple</h3>
-            <p class="business-type">Coiffure</p>
-            <p>Services de coiffure et soins capillaires.</p>
-            <p>📍 Kikwit, RDC</p>
-            <a href="#contact" class="business-button">
-                Demander les informations
-            </a>
-        </article>
+        </div>
+        <p id="noResults" hidden>Aucun professionnel trouvé.</p>
+    </section>
 
-        <article class="business-card">
-            <div class="business-icon">🍽️</div>
-            <h3>Restaurant Exemple</h3>
-            <p class="business-type">Restauration</p>
-            <p>Découvrez des plats et spécialités locales.</p>
-            <p>📍 Kikwit, RDC</p>
-            <a href="#contact" class="business-button">
-                Demander les informations
-            </a>
-        </article>
+    <section class="contact-section" id="contact">
+        <h2>Vous êtes entrepreneur ?</h2>
+        <p>Faites connaître votre activité et trouvez de nouveaux clients.</p>
+        <a class="button" href="mailto:contact@congobusinessconnect.com">
+            Nous contacter
+        </a>
+        <p class="small-note">Remplacez cette adresse par votre adresse professionnelle avant publication.</p>
+    </section>
+</main>
 
-    </div>
-</section>
-
-        <section id="contact">
-            <h2>Vous êtes entrepreneur ?</h2>
-            <p>Présentez votre activité sur Congo Business Connect.</p>
-            <p>Contactez-nous pour rejoindre la plateforme.</p>
-        </section>
-    </main>
-
-    <footer>
-        <p>© 2026 Congo Business Connect - RDC</p>
-    </footer>
+<footer>
+    <p>© 2026 Congo Business Connect — RDC</p>
+    <p>Connectons les commerces et les clients congolais.</p>
+</footer>
 
 </body>
 </html>
