@@ -1,34 +1,63 @@
 
-console.log("Congo Business Connect est lancé !");
+document.addEventListener("DOMContentLoaded", function () {
 
-function searchServices() {
-    const input = document.getElementById("searchInput");
-    const message = document.getElementById("searchMessage");
-
-    const search = input.value.toLowerCase().trim();
+    const searchInput = document.getElementById("searchInput");
+    const searchButton = document.getElementById("searchButton");
+    const searchMessage = document.getElementById("searchMessage");
+    const noResults = document.getElementById("noResults");
+    const businessCards = document.querySelectorAll(".business-card");
     const categories = document.querySelectorAll(".category");
 
-    let found = 0;
+    function searchServices() {
+        const query = searchInput.value
+            .trim()
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
 
-    categories.forEach(function(category) {
-        const content = category.textContent.toLowerCase();
+        let count = 0;
 
-        if (content.includes(search)) {
-            category.style.display = "block";
-            found++;
-        } else {
-            category.style.display = "none";
+        businessCards.forEach(function (card) {
+            const content = (
+                card.dataset.name + " " +
+                card.dataset.category + " " +
+                card.dataset.service + " " +
+                card.dataset.city + " " +
+                card.textContent
+            ).toLowerCase().normalize("NFD")
+             .replace(/[\u0300-\u036f]/g, "");
+
+            const matches = content.includes(query);
+
+            card.hidden = !matches;
+
+            if (matches) count++;
+        });
+
+        noResults.hidden = count !== 0;
+        searchMessage.textContent = query
+            ? count + " professionnel(s) trouvé(s)."
+            : "";
+    }
+
+    searchButton.addEventListener("click", searchServices);
+
+    searchInput.addEventListener("input", searchServices);
+
+    searchInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            searchServices();
         }
     });
 
-    if (search === "") {
-        categories.forEach(category => {
-            category.style.display = "block";
+    categories.forEach(function (category) {
+        category.addEventListener("click", function () {
+            searchInput.value = category.dataset.category;
+            searchServices();
+
+            document.getElementById("professionals")
+                .scrollIntoView({ behavior: "smooth" });
         });
-        message.textContent = "Toutes les catégories sont affichées.";
-    } else if (found > 0) {
-        message.textContent = found + " catégorie(s) trouvée(s).";
-    } else {
-        message.textContent = "Aucun service trouvé.";
-    }
-}
+    });
+
+});
