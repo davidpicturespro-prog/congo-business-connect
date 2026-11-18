@@ -1,19 +1,25 @@
 
 document.addEventListener("DOMContentLoaded", async function () {
 
+    // =====================================
     // CONFIGURATION SUPABASE
-    // Remplace les deux valeurs par celles de TON projet.
+    // =====================================
 
-    const SUPABASE_URL = "sb_publishable_1oKoLQ9VIairdQJIrz0ROA_-tC4Lrhk";
-    const SUPABASE_KEY = "https://pdnhqubbhkeibikkmbrb.supabase.co/rest/v1/I";
+    const SUPABASE_URL = "https://pdnhqubbhkeibikkmbrb.supabase.co/rest/v1/E";
+    const SUPABASE_KEY = "sb_publishable_1oKoLQ9VIairdQJIrz0ROA_-tC4Lrhk";
 
     const message = document.getElementById("accountMessage");
 
-    if (!window.supabase ||
+    if (!window.supabase) {
+        message.textContent = "Erreur : bibliothèque Supabase non chargée.";
+        return;
+    }
+
+    if (
         SUPABASE_URL.includes("COLLE_") ||
-        SUPABASE_KEY.includes("COLLE_")) {
-        message.textContent =
-            "Configuration Supabase manquante. Vérifie script.js.";
+        SUPABASE_KEY.includes("COLLE_")
+    ) {
+        message.textContent = "Ajoute tes deux clés Supabase dans script.js.";
         return;
     }
 
@@ -33,7 +39,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     const businessArea = document.getElementById("businessArea");
     const userEmail = document.getElementById("userEmail");
 
-    // AFFICHER LES ENTREPRISES APPROUVEES
+    // =====================================
+    // AFFICHER LES COMMERCES APPROUVES
+    // =====================================
+
     async function loadBusinesses() {
         const list = document.getElementById("businessList");
         const noResults = document.getElementById("noResults");
@@ -47,12 +56,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             .order("created_at", { ascending: false });
 
         if (error) {
-            noResults.textContent = "Impossible de charger les commerces.";
+            noResults.textContent = "Erreur : " + error.message;
             noResults.hidden = false;
             return;
         }
 
-        noResults.hidden = data.length > 0;
+        if (!data || data.length === 0) {
+            noResults.textContent = "Aucun commerce disponible pour le moment.";
+            noResults.hidden = false;
+            return;
+        }
+
+        noResults.hidden = true;
 
         data.forEach(function (business) {
             const card = document.createElement("article");
@@ -76,11 +91,13 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (business.phone) {
                 const link = document.createElement("a");
                 const digits = business.phone.replace(/\D/g, "");
+
                 link.href = "https://wa.me/" + digits;
                 link.textContent = "Contacter sur WhatsApp";
                 link.target = "_blank";
                 link.rel = "noopener noreferrer";
                 link.className = "business-button";
+
                 card.appendChild(link);
             }
 
@@ -88,7 +105,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // AFFICHER LES ENTREPRISES DU COMMERÇANT CONNECTÉ
+    // =====================================
+    // MES COMMERCES
+    // =====================================
+
     async function loadMyBusinesses() {
         const container = document.getElementById("myBusinesses");
         container.replaceChildren();
@@ -100,29 +120,37 @@ document.addEventListener("DOMContentLoaded", async function () {
             .order("created_at", { ascending: false });
 
         if (error) {
-            container.textContent = "Erreur de chargement.";
+            container.textContent = "Erreur : " + error.message;
             return;
         }
 
-        if (!data.length) {
-            container.textContent = "Tu n'as pas encore enregistré d'entreprise.";
+        if (!data || data.length === 0) {
+            container.textContent =
+                "Tu n'as pas encore enregistré d'entreprise.";
             return;
         }
 
         data.forEach(function (business) {
             const item = document.createElement("p");
+
             item.textContent =
-                business.name + " — " + business.city +
-                " — " + (business.status === "approved"
+                business.name + " — " +
+                business.city + " — " +
+                (business.status === "approved"
                     ? "Approuvée"
                     : "En attente de validation");
+
             container.appendChild(item);
         });
     }
 
-    // METTRE A JOUR L'ESPACE SELON LA CONNEXION
+    // =====================================
+    // INTERFACE UTILISATEUR
+    // =====================================
+
     async function updateInterface(user) {
         currentUser = user;
+
         authArea.hidden = !!user;
         businessArea.hidden = !user;
 
@@ -132,16 +160,32 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    const { data: sessionData } = await client.auth.getSession();
+    const { data: sessionData, error: sessionError } =
+        await client.auth.getSession();
+
+    if (sessionError) {
+        showMessage(sessionError.message, true);
+    }
+
     await updateInterface(sessionData.session?.user || null);
 
     client.auth.onAuthStateChange(function (_event, session) {
-        updateInterface(session?.user || null);
+        currentUser = session?.user || null;
+        authArea.hidden = !!currentUser;
+        businessArea.hidden = !currentUser;
+
+        if (currentUser) {
+            userEmail.textContent = "Connecté : " + currentUser.email;
+            loadMyBusinesses();
+        }
     });
 
     await loadBusinesses();
 
+    // =====================================
     // INSCRIPTION
+    // =====================================
+
     document.getElementById("signupForm")
         .addEventListener("submit", async function (event) {
             event.preventDefault();
@@ -162,16 +206,19 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
 
             if (data.session) {
-                showMessage("Compte créé avec succès !");
                 await updateInterface(data.user);
+                showMessage("Compte créé avec succès !");
             } else {
                 showMessage(
-                    "Compte créé ! Consulte ton e-mail pour confirmer ton inscription, puis connecte-toi."
+                    "Compte créé ! Consulte ton e-mail pour confirmer ton inscription."
                 );
             }
         });
 
+    // =====================================
     // CONNEXION
+    // =====================================
+
     document.getElementById("loginForm")
         .addEventListener("submit", async function (event) {
             event.preventDefault();
@@ -195,7 +242,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             showMessage("Connexion réussie !");
         });
 
-    // ENREGISTRER UNE ENTREPRISE
+    // =====================================
+    // ENREGISTRER UN COMMERCE
+    // =====================================
+
     document.getElementById("businessForm")
         .addEventListener("submit", async function (event) {
             event.preventDefault();
@@ -228,13 +278,16 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.getElementById("businessForm").reset();
 
             showMessage(
-                "Entreprise enregistrée ! Elle attend maintenant la validation."
+                "Commerce enregistré ! Il attend la validation."
             );
 
             await loadMyBusinesses();
         });
 
+    // =====================================
     // DECONNEXION
+    // =====================================
+
     document.getElementById("logoutButton")
         .addEventListener("click", async function () {
             const { error } = await client.auth.signOut();
@@ -248,7 +301,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             showMessage("Déconnexion réussie.");
         });
 
+    // =====================================
     // RECHERCHE
+    // =====================================
+
     const searchInput = document.getElementById("searchInput");
 
     function searchBusinesses() {
@@ -257,8 +313,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         document.querySelectorAll("#businessList .business-card")
             .forEach(function (card) {
-                const matches = card.textContent.toLowerCase().includes(query);
+                const matches = card.textContent
+                    .toLowerCase()
+                    .includes(query);
+
                 card.hidden = !matches;
+
                 if (matches) count++;
             });
 
@@ -271,10 +331,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     searchInput.addEventListener("input", searchBusinesses);
 
+    // =====================================
+    // CATEGORIES
+    // =====================================
+
     document.querySelectorAll(".category").forEach(function (category) {
         category.addEventListener("click", function () {
             searchInput.value = category.dataset.category;
+
             searchBusinesses();
+
             document.getElementById("professionals")
                 .scrollIntoView({ behavior: "smooth" });
         });
