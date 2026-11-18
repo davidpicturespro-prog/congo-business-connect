@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Congo Business Connect : trouvez des commerces, produits et professionnels en RDC.">
-    <meta name="theme-color" content="#087443">
-    <title>Congo Business Connect | RDC</title>
+    <meta name="description" content="Congo Business Connect : commerces et professionnels en RDC.">
+    <title>Congo Business Connect</title>
     <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js" defer></script>
 </head>
 <body>
@@ -17,115 +18,131 @@
     <nav>
         <a href="#accueil">Accueil</a>
         <a href="#categories">Catégories</a>
-        <a href="#professionals">Commerçants</a>
-        <a href="#contact">Contact</a>
+        <a href="#professionals">Commerces</a>
+        <a href="#espace">Espace commerçant</a>
     </nav>
 </header>
 
 <main>
     <section class="hero" id="accueil">
         <span class="tag">LA VITRINE COMMERCIALE DE LA RDC</span>
-        <h1>Trouvez les meilleurs services près de chez vous.</h1>
-        <p>Découvrez les commerces, entreprises et professionnels de la République démocratique du Congo.</p>
-
+        <h1>Découvrez les commerces et services près de chez vous.</h1>
+        <p>Connectons les entrepreneurs et les clients congolais.</p>
         <a href="#categories" class="button">Découvrir les services</a>
 
         <div class="search-box">
-            <input type="search" id="searchInput"
-                placeholder="Rechercher un commerce ou un service...">
+            <input id="searchInput" type="search"
+                   placeholder="Rechercher un service...">
             <button id="searchButton">Rechercher</button>
         </div>
         <p id="searchMessage" aria-live="polite"></p>
     </section>
 
     <section class="section" id="categories">
-        <h2>Explorer les catégories</h2>
-        <p class="subtitle">Trouvez facilement ce dont vous avez besoin.</p>
-
+        <h2>Nos catégories</h2>
         <div class="categories">
             <article class="category" data-category="photographie">
                 <span>📸</span><h3>Photographes</h3>
-                <p>Photos studio et événements.</p>
             </article>
             <article class="category" data-category="coiffure">
                 <span>💈</span><h3>Coiffeurs</h3>
-                <p>Salons et soins capillaires.</p>
             </article>
             <article class="category" data-category="restaurant">
                 <span>🍽️</span><h3>Restaurants</h3>
-                <p>Restaurants et gastronomie.</p>
             </article>
             <article class="category" data-category="boutique">
                 <span>🛍️</span><h3>Boutiques</h3>
-                <p>Commerces et magasins.</p>
             </article>
             <article class="category" data-category="informatique">
                 <span>💻</span><h3>Informatique</h3>
-                <p>Technologie et réparation.</p>
             </article>
             <article class="category" data-category="transport">
                 <span>🚕</span><h3>Transport</h3>
-                <p>Déplacements et livraison.</p>
             </article>
         </div>
     </section>
 
     <section class="section professionals" id="professionals">
-        <h2>Professionnels à découvrir</h2>
-        <p class="subtitle">Quelques exemples de services sur la plateforme.</p>
-
-        <div class="business-list" id="businessList">
-
-            <article class="business-card"
-                data-name="Studio Photo Exemple"
-                data-category="photographie"
-                data-service="photos studio mariage shooting"
-                data-city="kikwit">
-                <div class="business-icon">📸</div>
-                <h3>Studio Photo Exemple</h3>
-                <span class="business-type">Photographie</span>
-                <p>Photos studio, mariages et événements.</p>
-                <p>📍 Kikwit, RDC</p>
-                <a href="#contact" class="business-button">Contacter</a>
-            </article>
-
-            <article class="business-card"
-                data-name="Salon Exemple"
-                data-category="coiffure"
-                data-service="coiffure soins capillaires"
-                data-city="kikwit">
-                <div class="business-icon">💈</div>
-                <h3>Salon Exemple</h3>
-                <span class="business-type">Coiffure</span>
-                <p>Coiffure et soins capillaires.</p>
-                <p>📍 Kikwit, RDC</p>
-                <a href="#contact" class="business-button">Contacter</a>
-            </article>
-
-            <article class="business-card"
-                data-name="Restaurant Exemple"
-                data-category="restaurant"
-                data-service="restaurant repas cuisine"
-                data-city="kikwit">
-                <div class="business-icon">🍽️</div>
-                <h3>Restaurant Exemple</h3>
-                <span class="business-type">Restauration</span>
-                <p>Plats et spécialités locales.</p>
-                <p>📍 Kikwit, RDC</p>
-                <a href="#contact" class="business-button">Contacter</a>
-            </article>
-
-        </div>
-        <p id="noResults" hidden>Aucun professionnel trouvé.</p>
+        <h2>Commerces à découvrir</h2>
+        <p class="subtitle">Les entreprises approuvées apparaîtront ici.</p>
+        <div id="businessList" class="business-list"></div>
+        <p id="noResults">Aucun commerce disponible pour le moment.</p>
     </section>
 
-    <section class="contact-section" id="contact">
-        <h2>Vous êtes entrepreneur ?</h2>
-        <p>Faites connaître votre activité et trouvez de nouveaux clients.</p>
-        <a class="button" href="mailto:contact@congobusinessconnect.com">
-            Nous contacter
-        </a>
-        <p class="small-note">Remplacez cette adresse par votre adresse professionnelle avant publication.</p>
+    <section class="section account-section" id="espace">
+        <h2>Espace commerçant</h2>
+        <p class="subtitle">Créez un compte pour présenter votre entreprise.</p>
+
+        <div id="authArea" class="account-grid">
+            <form id="signupForm" class="account-card">
+                <h3>Créer un compte</h3>
+                <label for="signupEmail">Adresse e-mail</label>
+                <input id="signupEmail" type="email" required
+                       placeholder="exemple@email.com">
+
+                <label for="signupPassword">Mot de passe</label>
+                <input id="signupPassword" type="password"
+                       minlength="8" required placeholder="8 caractères minimum">
+
+                <button type="submit">Créer mon compte</button>
+            </form>
+
+            <form id="loginForm" class="account-card">
+                <h3>Déjà inscrit ?</h3>
+                <label for="loginEmail">Adresse e-mail</label>
+                <input id="loginEmail" type="email" required>
+
+                <label for="loginPassword">Mot de passe</label>
+                <input id="loginPassword" type="password" required>
+
+                <button type="submit">Se connecter</button>
+            </form>
+        </div>
+
+        <div id="businessArea" class="account-card" hidden>
+            <h3>Enregistrer mon entreprise</h3>
+            <p id="userEmail"></p>
+
+            <form id="businessForm">
+                <label for="businessName">Nom de l'entreprise</label>
+                <input id="businessName" required maxlength="100">
+
+                <label for="businessCategory">Catégorie</label>
+                <select id="businessCategory" required>
+                    <option value="">Choisir une catégorie</option>
+                    <option value="photographie">Photographie</option>
+                    <option value="coiffure">Coiffure</option>
+                    <option value="restaurant">Restaurant</option>
+                    <option value="boutique">Boutique</option>
+                    <option value="informatique">Informatique</option>
+                    <option value="transport">Transport</option>
+                    <option value="autre">Autre</option>
+                </select>
+
+                <label for="businessCity">Ville</label>
+                <input id="businessCity" required placeholder="Ex : Kikwit">
+
+                <label for="businessPhone">Téléphone / WhatsApp</label>
+                <input id="businessPhone" type="tel" required
+                       placeholder="+243...">
+
+                <label for="businessDescription">Description</label>
+                <textarea id="businessDescription" rows="4"
+                          maxlength="1000" required
+                          placeholder="Présentez votre activité..."></textarea>
+
+                <button type="submit">Enregistrer mon entreprise</button>
+            </form>
+
+            <h3>Mes entreprises</h3>
+            <div id="myBusinesses"></div>
+
+            <button type="button" id="logoutButton" class="logout">
+                Se déconnecter
+            </button>
+        </div>
+
+        <p id="accountMessage" role="status" aria-live="polite"></p>
     </section>
 </main>
 
