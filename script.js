@@ -1,21 +1,27 @@
 
 document.addEventListener("DOMContentLoaded", async function () {
 
-    // =====================================
     // CONFIGURATION SUPABASE
-    // =====================================
-  const message = document.getElementById("accountMessage");
+    const SUPABASE_URL = "https://pdnhqubbhkeibikkmbrb.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_1oKoLQ9VIairdQJIrz0ROA_-tC4Lrhk";
+
+    const message = document.getElementById("accountMessage");
+
+    function showMessage(text, error = false) {
+        message.textContent = text;
+        message.style.color = error ? "#b42318" : "#087443";
+    }
 
     if (!window.supabase) {
-        message.textContent = "Erreur : bibliothèque Supabase non chargée.";
+        showMessage("Bibliothèque Supabase non chargée.", true);
         return;
     }
 
     if (
-        SUPABASE_URL.includes("https://pdnhqubbhkeibikkmbrb.supabase.co") ||
-        SUPABASE_KEY.includes("sb_publishable_1oKoLQ9VIairdQJIrz0ROA_-tC4Lrhk")
+        SUPABASE_URL.includes("COLLE_") ||
+        SUPABASE_KEY.includes("COLLE_")
     ) {
-        message.textContent = "Ajoute tes deux clés Supabase dans script.js.";
+        showMessage("Ajoute tes deux clés Supabase.", true);
         return;
     }
 
@@ -26,19 +32,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     let currentUser = null;
 
-    function showMessage(text, error = false) {
-        message.textContent = text;
-        message.style.color = error ? "#b42318" : "#087443";
-    }
-
     const authArea = document.getElementById("authArea");
     const businessArea = document.getElementById("businessArea");
     const userEmail = document.getElementById("userEmail");
 
-    // =====================================
-    // AFFICHER LES COMMERCES APPROUVES
-    // =====================================
-
+    // AFFICHER LES COMMERCES
     async function loadBusinesses() {
         const list = document.getElementById("businessList");
         const noResults = document.getElementById("noResults");
@@ -58,7 +56,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         if (!data || data.length === 0) {
-            noResults.textContent = "Aucun commerce disponible pour le moment.";
+            noResults.textContent =
+                "Aucun commerce disponible pour le moment.";
             noResults.hidden = false;
             return;
         }
@@ -86,14 +85,13 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             if (business.phone) {
                 const link = document.createElement("a");
-                const digits = business.phone.replace(/\D/g, "");
-
-                link.href = "https://wa.me/" + digits;
+                link.href =
+                    "https://wa.me/" +
+                    business.phone.replace(/\D/g, "");
                 link.textContent = "Contacter sur WhatsApp";
                 link.target = "_blank";
                 link.rel = "noopener noreferrer";
                 link.className = "business-button";
-
                 card.appendChild(link);
             }
 
@@ -101,10 +99,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // =====================================
-    // MES COMMERCES
-    // =====================================
-
+    // AFFICHER MES COMMERCES
     async function loadMyBusinesses() {
         const container = document.getElementById("myBusinesses");
         container.replaceChildren();
@@ -140,13 +135,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // =====================================
-    // INTERFACE UTILISATEUR
-    // =====================================
-
+    // INTERFACE
     async function updateInterface(user) {
         currentUser = user;
-
         authArea.hidden = !!user;
         businessArea.hidden = !user;
 
@@ -178,22 +169,21 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     await loadBusinesses();
 
-    // =====================================
     // INSCRIPTION
-    // =====================================
-
     document.getElementById("signupForm")
         .addEventListener("submit", async function (event) {
             event.preventDefault();
 
-            const email = document.getElementById("signupEmail").value.trim();
-            const password = document.getElementById("signupPassword").value;
+            const email =
+                document.getElementById("signupEmail").value.trim();
+            const password =
+                document.getElementById("signupPassword").value;
 
             showMessage("Création du compte en cours...");
 
             const { data, error } = await client.auth.signUp({
-                email: email,
-                password: password
+                email,
+                password
             });
 
             if (error) {
@@ -206,28 +196,28 @@ document.addEventListener("DOMContentLoaded", async function () {
                 showMessage("Compte créé avec succès !");
             } else {
                 showMessage(
-                    "Compte créé ! Consulte ton e-mail pour confirmer ton inscription."
+                    "Compte créé ! Consulte ton e-mail pour confirmer."
                 );
             }
         });
 
-    // =====================================
     // CONNEXION
-    // =====================================
-
     document.getElementById("loginForm")
         .addEventListener("submit", async function (event) {
             event.preventDefault();
 
-            const email = document.getElementById("loginEmail").value.trim();
-            const password = document.getElementById("loginPassword").value;
+            const email =
+                document.getElementById("loginEmail").value.trim();
+            const password =
+                document.getElementById("loginPassword").value;
 
             showMessage("Connexion en cours...");
 
-            const { data, error } = await client.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
+            const { data, error } =
+                await client.auth.signInWithPassword({
+                    email,
+                    password
+                });
 
             if (error) {
                 showMessage(error.message, true);
@@ -238,10 +228,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             showMessage("Connexion réussie !");
         });
 
-    // =====================================
     // ENREGISTRER UN COMMERCE
-    // =====================================
-
     document.getElementById("businessForm")
         .addEventListener("submit", async function (event) {
             event.preventDefault();
@@ -257,7 +244,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 category: document.getElementById("businessCategory").value,
                 city: document.getElementById("businessCity").value.trim(),
                 phone: document.getElementById("businessPhone").value.trim(),
-                description: document.getElementById("businessDescription").value.trim()
+                description:
+                    document.getElementById("businessDescription").value.trim()
             };
 
             showMessage("Enregistrement en cours...");
@@ -274,16 +262,13 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.getElementById("businessForm").reset();
 
             showMessage(
-                "Commerce enregistré ! Il attend la validation."
+                "Commerce enregistré ! En attente de validation."
             );
 
             await loadMyBusinesses();
         });
 
-    // =====================================
     // DECONNEXION
-    // =====================================
-
     document.getElementById("logoutButton")
         .addEventListener("click", async function () {
             const { error } = await client.auth.signOut();
@@ -297,10 +282,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             showMessage("Déconnexion réussie.");
         });
 
-    // =====================================
     // RECHERCHE
-    // =====================================
-
     const searchInput = document.getElementById("searchInput");
 
     function searchBusinesses() {
@@ -309,12 +291,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         document.querySelectorAll("#businessList .business-card")
             .forEach(function (card) {
-                const matches = card.textContent
-                    .toLowerCase()
-                    .includes(query);
+                const matches =
+                    card.textContent.toLowerCase().includes(query);
 
                 card.hidden = !matches;
-
                 if (matches) count++;
             });
 
@@ -327,14 +307,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     searchInput.addEventListener("input", searchBusinesses);
 
-    // =====================================
     // CATEGORIES
-    // =====================================
-
     document.querySelectorAll(".category").forEach(function (category) {
         category.addEventListener("click", function () {
             searchInput.value = category.dataset.category;
-
             searchBusinesses();
 
             document.getElementById("professionals")
