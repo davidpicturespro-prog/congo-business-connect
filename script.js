@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     // CONFIGURATION SUPABASE
     // Remplace les deux valeurs par celles de TON projet.
 
-    const SUPABASE_URL = "COLLE_TON_API_URL_ICI";
-    const SUPABASE_KEY = "COLLE_TA_PUBLISHABLE_KEY_ICI";
+    const SUPABASE_URL = "sb_publishable_1oKoLQ9VIairdQJIrz0ROA_-tC4Lrhk";
+    const SUPABASE_KEY = "https://pdnhqubbhkeibikkmbrb.supabase.co/rest/v1/I";
 
     const message = document.getElementById("accountMessage");
 
