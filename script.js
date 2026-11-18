@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // CONFIGURATION SUPABASE
     // =====================================
 
-    const SUPABASE_URL = "https://pdnhqubbhkeibikkmbrb.supabase";
+    const SUPABASE_URL = "https://pdnhqubbhkeibikkmbrb.supabase.co";
     const SUPABASE_KEY = "sb_publishable_1oKoLQ9VIairdQJIrz0ROA_-tC4Lrhk";
 
     const message = document.getElementById("accountMessage");
@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     if (
-        SUPABASE_URL.includes("COLLE_") ||
-        SUPABASE_KEY.includes("COLLE_")
+        SUPABASE_URL.includes("https://pdnhqubbhkeibikkmbrb.supabase.co") ||
+        SUPABASE_KEY.includes("sb_publishable_1oKoLQ9VIairdQJIrz0ROA_-tC4Lrhk")
     ) {
         message.textContent = "Ajoute tes deux clés Supabase dans script.js.";
         return;
