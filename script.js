@@ -4,11 +4,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // =====================================
     // CONFIGURATION SUPABASE
     // =====================================
-
-    const SUPABASE_URL = "https://pdnhqubbhkeibikkmbrb.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_1oKoLQ9VIairdQJIrz0ROA_-tC4Lrhk";
-
-    const message = document.getElementById("accountMessage");
+  const message = document.getElementById("accountMessage");
 
     if (!window.supabase) {
         message.textContent = "Erreur : bibliothèque Supabase non chargée.";
