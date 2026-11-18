@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // CONFIGURATION SUPABASE
     // =====================================
 
-    const SUPABASE_URL = "https://pdnhqubbhkeibikkmbrb.supabase.co/rest/v1/E";
+    const SUPABASE_URL = "https://pdnhqubbhkeibikkmbrb.supabase";
     const SUPABASE_KEY = "sb_publishable_1oKoLQ9VIairdQJIrz0ROA_-tC4Lrhk";
 
     const message = document.getElementById("accountMessage");
