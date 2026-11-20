@@ -162,3 +162,7 @@ footer {
     .search-box { flex-direction: column; }
     .section { padding: 45px 18px; }
 }
+
+[hidden] {
+    display: none !important;
+}
