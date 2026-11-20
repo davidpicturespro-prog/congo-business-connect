@@ -199,6 +199,29 @@ document.getElementById("resetPasswordForm")
         showMessage("Lien de réinitialisation envoyé. Vérifie ton e-mail !");
     });
 
+ // ENREGISTRER LE NOUVEAU MOT DE PASSE
+document.getElementById("newPasswordForm")
+    .addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const password =
+            document.getElementById("newPassword").value;
+
+        const { error } = await client.auth.updateUser({
+            password: password
+        });
+
+        if (error) {
+            showMessage(error.message, true);
+            return;
+        }
+
+        showMessage("Mot de passe modifié avec succès !");
+
+        document.getElementById("newPasswordForm").hidden = true;
+        document.getElementById("loginForm").hidden = false;
+    });
+
     // INSCRIPTION
     document.getElementById("signupForm")
         .addEventListener("submit", async function (event) {
