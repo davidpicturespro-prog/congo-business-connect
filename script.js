@@ -30,6 +30,17 @@ document.addEventListener("DOMContentLoaded", async function () {
         SUPABASE_KEY
     );
 
+    // DETECTER LA REINITIALISATION DU MOT DE PASSE
+    client.auth.onAuthStateChange((event, session) => {
+        if (event === "PASSWORD_RECOVERY") {
+            document.getElementById("loginForm").hidden = true;
+            document.getElementById("resetPasswordForm").hidden = true;
+            document.getElementById("newPasswordForm").hidden = false;
+
+            showMessage("Choisis ton nouveau mot de passe.");
+        }
+    });
+
     let currentUser = null;
 
     const authArea = document.getElementById("authArea");
