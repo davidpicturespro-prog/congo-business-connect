@@ -87,16 +87,32 @@
                 <button type="submit">Créer mon compte</button>
             </form>
 
-            <form id="loginForm" class="account-card">
-                <h3>Déjà inscrit ?</h3>
-                <label for="loginEmail">Adresse e-mail</label>
-                <input id="loginEmail" type="email" required>
+            
+<form id="loginForm" class="account-card">
+    <h3>Déjà inscrit ?</h3>
 
-                <label for="loginPassword">Mot de passe</label>
-                <input id="loginPassword" type="password" required>
+    <label for="loginEmail">Adresse e-mail</label>
+    <input id="loginEmail" type="email" required>
 
-                <button type="submit">Se connecter</button>
-            </form>
+    <label for="loginPassword">Mot de passe</label>
+    <input id="loginPassword" type="password" required>
+
+    <button type="submit">Se connecter</button>
+
+    <button type="button" id="forgotPasswordBtn">
+        Mot de passe oublié ?
+    </button>
+</form>
+
+<form id="resetPasswordForm" class="account-card" hidden>
+    <h3>Réinitialiser mon mot de passe</h3>
+
+    <label for="resetEmail">Ton adresse e-mail</label>
+    <input id="resetEmail" type="email" required>
+
+    <button type="submit">Envoyer le lien</button>
+</form>
+
         </div>
 
         <div id="businessArea" class="account-card" hidden>
