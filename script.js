@@ -169,6 +169,36 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     await loadBusinesses();
 
+// MOT DE PASSE OUBLIE
+document.getElementById("forgotPasswordBtn")
+    .addEventListener("click", function () {
+        document.getElementById("resetEmail").value =
+            document.getElementById("loginEmail").value;
+
+        document.getElementById("resetPasswordForm").hidden = false;
+
+        showMessage("Entre ton adresse e-mail pour recevoir un lien.");
+    });
+
+document.getElementById("resetPasswordForm")
+    .addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const email =
+            document.getElementById("resetEmail").value.trim();
+
+        const { error } = await client.auth.resetPasswordForEmail(email, {
+            redirectTo: "https://congo-business-connect.vercel.app"
+        });
+
+        if (error) {
+            showMessage(error.message, true);
+            return;
+        }
+
+        showMessage("Lien de réinitialisation envoyé. Vérifie ton e-mail !");
+    });
+
     // INSCRIPTION
     document.getElementById("signupForm")
         .addEventListener("submit", async function (event) {
