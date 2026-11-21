@@ -210,13 +210,32 @@ document.getElementById("resetPasswordForm")
         showMessage("Lien de réinitialisation envoyé. Vérifie ton e-mail !");
     });
 
- // ENREGISTRER LE NOUVEAU MOT DE PASSE
+
+// ENREGISTRER LE NOUVEAU MOT DE PASSE
 document.getElementById("newPasswordForm")
     .addEventListener("submit", async function (event) {
         event.preventDefault();
 
         const password =
-            document.getElementById("newPassword").value;
+            document.getElementById("newPassword").value.trim();
+
+        if (password.length < 8) {
+            showMessage("Le mot de passe doit contenir au moins 8 caractères.", true);
+            return;
+        }
+
+        showMessage("Enregistrement du nouveau mot de passe...");
+
+        const { data: { session }, error: sessionError } =
+            await client.auth.getSession();
+
+        if (sessionError || !session) {
+            showMessage(
+                "Session expirée. Demande un nouveau lien de réinitialisation.",
+                true
+            );
+            return;
+        }
 
         const { error } = await client.auth.updateUser({
             password: password
@@ -231,7 +250,12 @@ document.getElementById("newPasswordForm")
 
         document.getElementById("newPasswordForm").hidden = true;
         document.getElementById("loginForm").hidden = false;
+        document.getElementById("loginEmail").value =
+            document.getElementById("resetEmail").value;
+
+        document.getElementById("newPassword").value = "";
     });
+
 
     // INSCRIPTION
     document.getElementById("signupForm")
