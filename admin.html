@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Congo Business Connect</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .admin-card {
+            background: white;
+            color: #222;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+        }
+        .admin-card button {
+            margin: 8px;
+            padding: 10px 16px;
+            cursor: pointer;
+        }
+        .approve { background: #16803c; color: white; }
+        .reject { background: #c62828; color: white; }
+    </style>
+</head>
+<body>
+    <main class="admin-container">
+        <h1>Administration</h1>
+        <p>Congo Business Connect</p>
+
+        <h2>Entreprises en attente</h2>
+        <div id="adminMessage">Chargement...</div>
+        <div id="pendingBusinesses"></div>
+
+        <p><a href="index.html">Retour au site</a></p>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
