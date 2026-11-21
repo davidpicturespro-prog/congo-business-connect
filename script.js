@@ -75,40 +75,48 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         noResults.hidden = true;
 
-        data.forEach(function (business) {
-            const card = document.createElement("article");
-            card.className = "business-card";
+      
+data.forEach(function (business) {
+    const card = document.createElement("article");
+    card.className = "business-card";
 
-            const title = document.createElement("h3");
-            title.textContent = business.name;
+    const title = document.createElement("h3");
+    title.textContent = business.name;
 
-            const category = document.createElement("p");
-            category.className = "business-type";
-            category.textContent = business.category;
+    const category = document.createElement("p");
+    category.className = "business-type";
+    category.textContent = business.category;
 
-            const description = document.createElement("p");
-            description.textContent = business.description || "";
+    const description = document.createElement("p");
+    description.textContent = business.description || "";
 
-            const city = document.createElement("p");
-            city.textContent = "📍 " + business.city + ", RDC";
+    const city = document.createElement("p");
+    city.textContent = "📍 " + business.city + ", RDC";
 
-            card.append(title, category, description, city);
+    card.append(title, category, description, city);
 
-            if (business.phone) {
-                const link = document.createElement("a");
-                link.href =
-                    "https://wa.me/" +
-                    business.phone.replace(/\D/g, "");
-                link.textContent = "Contacter sur WhatsApp";
-                link.target = "_blank";
-                link.rel = "noopener noreferrer";
-                link.className = "business-button";
-                card.appendChild(link);
-            }
+    const detailsLink = document.createElement("a");
+    detailsLink.href =
+        "business.html?id=" + encodeURIComponent(business.id);
+    detailsLink.textContent = "Voir les détails";
+    detailsLink.className = "business-button";
 
-            list.appendChild(card);
-        });
+    card.appendChild(detailsLink);
+
+    if (business.phone) {
+        const link = document.createElement("a");
+        link.href =
+            "https://wa.me/" +
+            business.phone.replace(/\D/g, "");
+        link.textContent = "Contacter sur WhatsApp";
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.className = "business-button";
+        card.appendChild(link);
     }
+
+    list.appendChild(card);
+});
 
     // AFFICHER MES COMMERCES
     async function loadMyBusinesses() {
