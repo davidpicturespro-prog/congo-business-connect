@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'entreprise - Congo Business Connect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="admin-container">
+        <a href="index.html">← Retour aux commerces</a>
+
+        <section class="admin-card">
+            <h1 id="businessName">Chargement...</h1>
+            <p id="businessCategory"></p>
+            <p id="businessCity"></p>
+            <p id="businessDescription"></p>
+
+            <a id="whatsappButton"
+               class="business-button"
+               href="#"
+               target="_blank"
+               rel="noopener noreferrer"
+               hidden>
+                Contacter sur WhatsApp
+            </a>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="business.js"></script>
+</body>
+</html>
