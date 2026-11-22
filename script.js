@@ -120,7 +120,7 @@ data.forEach(function (business) {
 
     list.appendChild(card);
 });
-
+}
     // AFFICHER MES COMMERCES
     async function loadMyBusinesses() {
         const container = document.getElementById("myBusinesses");
