@@ -60,11 +60,14 @@ document.addEventListener("DOMContentLoaded", async function () {
             .eq("status", "approved")
             .order("created_at", { ascending: false });
 
-        if (error) {
-            noResults.textContent = "Erreur : " + error.message;
-            noResults.hidden = false;
-            return;
-        }
+       if (error) {
+    console.error("ERREUR CHARGEMENT COMMERCES :", error);
+    noResults.textContent = "Erreur : " + error.message;
+    noResults.hidden = false;
+    return;
+}
+
+console.log("COMMERCES CHARGÉS :", data);
 
         if (!data || data.length === 0) {
             noResults.textContent =
