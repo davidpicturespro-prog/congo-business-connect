@@ -27,6 +27,32 @@
                 Contacter sur WhatsApp
             </a>
         </section>
+        
+<section class="admin-card" id="imageUploadSection" hidden>
+    <h2>Gérer les photos de mon entreprise</h2>
+
+    <label for="logoFile">Logo de l'entreprise</label>
+    <input
+        type="file"
+        id="logoFile"
+        accept="image/*"
+    >
+
+    <label for="galleryFiles">Photos des produits et services</label>
+    <input
+        type="file"
+        id="galleryFiles"
+        accept="image/*"
+        multiple
+    >
+
+    <button type="button" id="uploadImagesButton">
+        Enregistrer les images
+    </button>
+
+    <p id="uploadMessage"></p>
+</section>
+
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
