@@ -235,3 +235,60 @@ document
     .addEventListener("click", saveBusinessImages);
 
 loadBusinessDetails();
+
+async function saveBusinessChanges() {
+    const message = document.getElementById("editMessage");
+    const button = document.getElementById("saveBusinessButton");
+
+    button.disabled = true;
+    message.textContent = "Enregistrement en cours...";
+
+    const updates = {
+        name: document.getElementById("editName").value.trim(),
+        category: document.getElementById("editCategory").value.trim(),
+        city: document.getElementById("editCity").value.trim(),
+        phone: document.getElementById("editPhone").value.trim(),
+        description: document.getElementById("editDescription").value.trim()
+    };
+
+    if (!updates.name) {
+        message.textContent = "Le nom de l'entreprise est obligatoire.";
+        button.disabled = false;
+        return;
+    }
+
+    const { data: sessionData } = await client.auth.getSession();
+    const user = sessionData.session?.user;
+
+    if (!user || !currentBusiness || user.id !== currentBusiness.owner_id) {
+        message.textContent = "Vous n'êtes pas autorisé à modifier cette entreprise.";
+        button.disabled = false;
+        return;
+    }
+
+    const { error } = await client
+        .from("businesses")
+        .update(updates)
+        .eq("id", currentBusiness.id)
+        .eq("owner_id", user.id);
+
+    button.disabled = false;
+
+    if (error) {
+        console.error(error);
+        message.textContent = "Erreur : " + error.message;
+        return;
+    }
+
+    Object.assign(currentBusiness, updates);
+
+    document.getElementById("businessName").textContent = updates.name;
+    document.getElementById("businessCategory").textContent = updates.category;
+    document.getElementById("businessCity").textContent = "📍 " + updates.city + ", RDC";
+    document.getElementById("businessDescription").textContent = updates.description;
+
+    message.textContent = "Modifications enregistrées avec succès !";
+}
+
+document.getElementById("saveBusinessButton")
+    .addEventListener("click", saveBusinessChanges);
