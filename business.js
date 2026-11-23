@@ -63,11 +63,10 @@ if (user && user.id === data.owner_id) {
     document.getElementById("editCategory").value = data.category || "";
     document.getElementById("editCity").value = data.city || "";
     document.getElementById("editPhone").value = data.phone || "";
-    document.getElementById("editDescription").value = data.description || "";
+     document.getElementById("editDescription").value = data.description || "";
 }
-    }
 
-    displayBusinessImages(data);
+displayBusinessImages(data);
 }
 
 function displayBusinessImages(business) {
