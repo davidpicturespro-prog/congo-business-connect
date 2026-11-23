@@ -74,8 +74,8 @@ function displayBusinessImages(business) {
 
         const container = document.createElement("div");
         container.id = "businessImages";
-
-        section.appendChild(heading);
+container.className = "business-gallery";
+         section.appendChild(heading);
         section.appendChild(container);
 
         document.querySelector("main").appendChild(section);
