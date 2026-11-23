@@ -54,8 +54,17 @@ async function loadBusinessDetails() {
     const { data: sessionData } = await client.auth.getSession();
     const user = sessionData.session?.user;
 
-    if (user && user.id === data.owner_id) {
-        uploadSection.hidden = false;
+    const editSection = document.getElementById("editBusinessSection");
+
+if (user && user.id === data.owner_id) {
+    editSection.hidden = false;
+
+    document.getElementById("editName").value = data.name || "";
+    document.getElementById("editCategory").value = data.category || "";
+    document.getElementById("editCity").value = data.city || "";
+    document.getElementById("editPhone").value = data.phone || "";
+    document.getElementById("editDescription").value = data.description || "";
+}
     }
 
     displayBusinessImages(data);
